@@ -56,9 +56,11 @@ public class Player {
 
     public void lost() {
         currentBet = 0;
+        //this.isPlaying = true;
     }
 
     public Card hitCard() {
+        //this.stand(); // 여기 잠깐..
         return hand.drawCard();
     }
 

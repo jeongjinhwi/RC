@@ -25,7 +25,7 @@ public class Deck {
 
     private void createCards(int number) {
         // create card for single deck
-        for (int j = 0; j < number; j++) {
+        for (int j = 0; j < number; j++) { // 현재 number는 1, 즉 덱을 하나만 생성한다.
             for (Suit suit : Suit.values()) {
                 for (int i = 1 ; i < 14; i++) {
                     Card card = new Card(i, suit);

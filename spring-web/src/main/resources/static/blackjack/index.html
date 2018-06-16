@@ -520,7 +520,7 @@
     $('#stand').click(function() {
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/api/black-jack/rooms/' + gameRoomId + '/stand',
+            url: 'http://localhost:8080/api/black-jack/rooms/' + gamdeRoomId + '/stand',
             headers: {
                 'name':user.name
             },
@@ -530,7 +530,7 @@
     })
 
     $('#more').click(function(){
-        var bet = 100;
+        var bet = 1000;
         var currentBet = parseInt($('#bet').html());
         var money = parseInt($('#money').html());
         if (money < bet) {
@@ -542,7 +542,7 @@
     });
 
     $('#less').click(function(){
-        var bet = 100;
+        var bet = 1000;
         var currentBet = parseInt($('#bet').html());
         var money = parseInt($('#money').html());
         if(currentBet < bet) {
