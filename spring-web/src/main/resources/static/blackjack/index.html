@@ -421,7 +421,7 @@
     <div class="dealer-cards"></div>
     <div class="clear"></div>
     <div class="player-cards"></div>
-    <div class="buttons"><div class="btn" id="hit">Hit</div><div class="btn" id="stand">Stand</div></div>
+    <div class="buttons"><div class="btn" id="hit">Hit</div><div class="btn" id="stand">Stand</div><div class="btn" id="doubledown">DoubleDown</div></div>
     <div class="buttons"><div class="btn" id="deal">Deal</div></div>
     <div class="betting-area">
         <b>Your Bet</b><br>
@@ -529,6 +529,18 @@
         });
     })
 
+    $('#doubledown').click(function() {
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/api/black-jack/rooms/' + gameRoomId + '/doubledown',
+            headers: {
+                'name':user.name
+            },
+        }).done(function(data) {
+            drawGameRoom(data);
+        });
+    })
+
     $('#more').click(function(){
         var bet = 1000;
         var currentBet = parseInt($('#bet').html());
@@ -561,12 +573,14 @@
             $('#less').show();
             $('#hit').hide();
             $('#stand').hide();
+            $('#doubledown').hide();
         } else {
             $('#deal').hide();
             $('#more').hide();
             $('#less').hide();
             $('#hit').show();
             $('#stand').show();
+            $('#doubledown').show();
         }
 
         $('.dealer-cards').html("");
@@ -587,8 +601,8 @@
         if (gameRoom.playerList[user.name].hand.cardList.length > 0) {
             $('.player-cards').append('<div id="playerTotal" class="player-total">' + gameRoom.playerList[user.name].hand.cardSum + '</div>')
         }
-
-        $('#bet').html(gameRoom.playerList[user.name].currentBet);
+        //$('#bet').html(gameRoom.playerList[user.name0.currentBet);
+        $('#bet').html(gameRoom.playerList[user.name].previousBet);
         $('#money').html(gameRoom.playerList[user.name].balance);
     }
 

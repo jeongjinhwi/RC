@@ -1,6 +1,7 @@
 package kr.ac.cnu.web.games.blackjack;
 
 import kr.ac.cnu.web.exceptions.NotEnoughBalanceException;
+import kr.ac.cnu.web.exceptions.TooMuchBetException;
 import lombok.Getter;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -16,25 +17,37 @@ public class Player {
     private boolean isPlaying;
     @Getter
     private Hand hand;
+    @Getter
+//<<<<<<< Updated upstream
+    private boolean isDD;
 
+//=======
+    private long previousBet;
+//>>>>>>> Stashed changes
     public Player(long seedMoney, Hand hand) {
         this.balance = seedMoney;
         this.hand = hand;
 
         isPlaying = false;
+        isDD = false;
     }
 
     public void reset() {
         hand.reset();
         isPlaying = false;
+        isDD = false;
     }
 
     public void placeBet(long bet) {
         if(balance < bet) {
-            throw new NotEnoughBalanceException();
+            bet = balance;
+        }
+        if(bet > 10000){
+            throw new TooMuchBetException();
         }
         balance -= bet;
         currentBet = bet;
+        previousBet = bet;
 
         isPlaying = true;
     }
@@ -60,12 +73,21 @@ public class Player {
     }
 
     public Card hitCard() {
+<<<<<<< HEAD
         //this.stand(); // 여기 잠깐..
         return hand.drawCard();
+=======
+            return hand.drawCard();
+>>>>>>> e19a94cb8276be1d4833f7077b1c7ca7a7209266
     }
 
     public void stand() {
         this.isPlaying = false;
     }
 
+    public void doubledownCard() {
+        this.isDD = true;
+        this.balance -= this.getCurrentBet();
+        this.currentBet = this.getCurrentBet() *2;
+    }
 }
