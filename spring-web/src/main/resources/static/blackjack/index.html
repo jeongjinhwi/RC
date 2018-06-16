@@ -601,8 +601,7 @@
         if (gameRoom.playerList[user.name].hand.cardList.length > 0) {
             $('.player-cards').append('<div id="playerTotal" class="player-total">' + gameRoom.playerList[user.name].hand.cardSum + '</div>')
         }
-        //$('#bet').html(gameRoom.playerList[user.name0.currentBet);
-        $('#bet').html(gameRoom.playerList[user.name].previousBet);
+        $('#bet').html(gameRoom.playerList[user.name].currentBet);
         $('#money').html(gameRoom.playerList[user.name].balance);
     }
 
