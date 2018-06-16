@@ -23,8 +23,21 @@ public class Hand {
         return card;
     }
 
-    public int getCardSum() {
+    /*public int getCardSum() {
         return cardList.stream().mapToInt(card -> card.getRank()).sum();
+    }
+    */
+
+    public int getCardSum(){
+        int sum = 0;
+        for (int i = 0 ; i < cardList.size() ; i ++) {
+            if (cardList.get(i).getRank() < 11) {
+                sum = sum + cardList.get(i).getRank();
+            }
+            else
+                sum = sum + 10;
+        }
+        return sum;
     }
 
     public void reset() {

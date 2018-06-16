@@ -29,6 +29,7 @@ public class Evaluator {
 
         playerMap.forEach((s, player) -> {
             int playerResult = player.getHand().getCardSum();
+
             if (playerResult > 21) {
                 player.lost();
             } else if (playerResult > dealerResult) {
@@ -38,6 +39,7 @@ public class Evaluator {
             } else {
                 player.lost();
             }
+
         });
 
         return true;

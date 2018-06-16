@@ -69,7 +69,6 @@ public class GameRoom {
         else{
             player.hitCard();
         }
-
     }
 
     public void stand(String name) {
