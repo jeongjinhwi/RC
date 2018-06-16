@@ -32,11 +32,23 @@ public class Hand {
         int sum = 0;
         for (int i = 0 ; i < cardList.size() ; i ++) {
             if (cardList.get(i).getRank() < 11) {
-                sum = sum + cardList.get(i).getRank();
+                if(cardList.get(i).getRank()==1){
+                    sum += 11;
+                }
+                else{
+                    sum = sum + cardList.get(i).getRank();
+                }
             }
-            else
+            else {
                 sum = sum + 10;
+            }
+            for (int j = 0 ; j < cardList.size() ; j ++) {
+                if(cardList.get(j).getRank()==1 && sum > 21){
+                    sum -= 10;
+                }
+            }
         }
+
         return sum;
     }
 
