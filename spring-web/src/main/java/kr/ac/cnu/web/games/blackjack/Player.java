@@ -73,12 +73,8 @@ public class Player {
     }
 
     public Card hitCard() {
-<<<<<<< HEAD
         //this.stand(); // 여기 잠깐..
         return hand.drawCard();
-=======
-            return hand.drawCard();
->>>>>>> e19a94cb8276be1d4833f7077b1c7ca7a7209266
     }
 
     public void stand() {
