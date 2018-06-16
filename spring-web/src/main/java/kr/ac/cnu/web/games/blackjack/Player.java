@@ -18,8 +18,12 @@ public class Player {
     @Getter
     private Hand hand;
     @Getter
+//<<<<<<< Updated upstream
     private boolean isDD;
 
+//=======
+    private long previousBet;
+//>>>>>>> Stashed changes
     public Player(long seedMoney, Hand hand) {
         this.balance = seedMoney;
         this.hand = hand;
@@ -36,13 +40,14 @@ public class Player {
 
     public void placeBet(long bet) {
         if(balance < bet) {
-            throw new NotEnoughBalanceException();
+            bet = balance;
         }
         if(bet > 10000){
             throw new TooMuchBetException();
         }
         balance -= bet;
         currentBet = bet;
+        previousBet = bet;
 
         isPlaying = true;
     }
