@@ -21,8 +21,7 @@ public class Player {
 //<<<<<<< Updated upstream
     private boolean isDD;
 
-//=======
-    private long previousBet;
+    //=======
 //>>>>>>> Stashed changes
     public Player(long seedMoney, Hand hand) {
         this.balance = seedMoney;
@@ -47,7 +46,6 @@ public class Player {
         }
         balance -= bet;
         currentBet = bet;
-        previousBet = bet;
 
         isPlaying = true;
     }
@@ -55,25 +53,24 @@ public class Player {
     public void deal() {
         hand.drawCard();
         hand.drawCard();
+        if(hand.getCardSum()>21){
+            lost();
+        }
     }
 
     public void win() {
-        balance += currentBet * 2;
-        currentBet = 0;
+        balance += currentBet;
     }
 
     public void tie() {
-        balance += currentBet;
-        currentBet = 0;
+
     }
 
     public void lost() {
-        currentBet = 0;
-        //this.isPlaying = true;
+        balance -= currentBet;
     }
 
     public Card hitCard() {
-        //this.stand(); // 여기 잠깐..
         return hand.drawCard();
     }
 
@@ -84,6 +81,6 @@ public class Player {
     public void doubledownCard() {
         this.isDD = true;
         this.balance -= this.getCurrentBet();
-        this.currentBet = this.getCurrentBet() *2;
+        this.currentBet = this.getCurrentBet()*2;
     }
 }

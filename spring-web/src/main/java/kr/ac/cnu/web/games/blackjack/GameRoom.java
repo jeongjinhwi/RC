@@ -60,20 +60,25 @@ public class GameRoom {
 
     public void hit(String name) {
         Player player = playerList.get(name);
+
+
         // toDo doubledown check
-        if(player.isDD()){
+        if (player.isDD()) {
             player.hitCard();
             player.stand();
             playDealer();
-        }
-        else{
+        } else {
             player.hitCard();
         }
+
+        if(playerList.get(name).getHand().getCardSum() >21){
+            playDealer();
+        }
+
     }
 
     public void stand(String name) {
         Player player = playerList.get(name);
-
         player.stand();
     }
 
