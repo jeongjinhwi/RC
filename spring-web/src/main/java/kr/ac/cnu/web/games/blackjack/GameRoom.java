@@ -58,10 +58,18 @@ public class GameRoom {
         playerList.forEach((s, player) -> player.deal());
     }
 
-    public Card hit(String name) {
+    public void hit(String name) {
         Player player = playerList.get(name);
+        // toDo doubledown check
+        if(player.isDD()){
+            player.hitCard();
+            player.stand();
+            playDealer();
+        }
+        else{
+            player.hitCard();
+        }
 
-        return player.hitCard();
     }
 
     public void stand(String name) {
@@ -76,4 +84,8 @@ public class GameRoom {
         this.isFinished = true;
     }
 
+    public void doubledown(String name) {
+        Player player = playerList.get(name);
+        player.doubledownCard();
+    }
 }
