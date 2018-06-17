@@ -398,9 +398,13 @@
             width: 30px;
         }
 
-        .money{
-            color: green;
-            font-size: 21px;
+        .money, .username{
+            color: darkred;
+            font-size: 20px;
+        }
+
+        .margintest {
+            margin-left: 20px;
         }
     </style>
 </head>
@@ -418,6 +422,13 @@
     </div>
 </div>
 <div class="page" id="game" style="display: none">
+    <div>
+        <b>이름 : </b>
+        <span id="username" class="username"></span>
+        <span class='margintest'><b>현재 금액 : </b></span>
+        <span id="money" class="money"></span>
+        <div class="clear"></div>
+    </div>
     <div class="dealer-cards"></div>
     <div class="clear"></div>
     <div class="player-cards"></div>
@@ -430,11 +441,6 @@
             <div class="btn" id="more">+</div>
             <div class="btn" id="less">-</div>
         </div>
-        <div class="clear"></div>
-    </div>
-    <div>
-        <b>Available Funds</b><br>
-        <span id="money" class="money"></span>
         <div class="clear"></div>
     </div>
 </div>
@@ -567,6 +573,8 @@
 
     function drawGameRoom(gameRoom) {
         console.log(gameRoom);
+
+        $('#username').html(user.name);
         if (gameRoom.finished) {
             $('#deal').show();
             $('#more').show();
