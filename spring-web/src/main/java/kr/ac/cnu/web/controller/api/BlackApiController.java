@@ -7,18 +7,12 @@ import kr.ac.cnu.web.model.User;
 import kr.ac.cnu.web.repository.UserRepository;
 import kr.ac.cnu.web.service.BlackjackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.awt.*;
+import java.sql.*;
 import java.util.Optional;
 
 /**
@@ -33,23 +27,35 @@ public class BlackApiController {
     @Autowired
     private UserRepository userRepository;
 
+    @RequestMapping(value = "/jpa", method = RequestMethod.GET)
+    public Page<User> jpa(@RequestParam int size) {
+        PageRequest pageRequest = PageRequest.of(0, size);
+
+        Page<User> page = userRepository.findAll(pageRequest);
+
+        return page;
+    }
+
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public User login(@RequestBody String name) {
         return userRepository.findById(name).orElseThrow(() -> new NoUserException());
     }
 
     @PostMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public User singup(@RequestBody String name) {
-        // TODO check already used name
+    public User singup(@RequestBody String name) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
+        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO user (name, account) VALUES (?, ?)");
+        pstmt.setString(1, name);
+        pstmt.setInt(2, 50000);
         Optional<User> userOptional = userRepository.findById(name);
         if (userOptional.isPresent()) {
             throw new RuntimeException();
         }
 
-        // TODO new user
+        pstmt.execute();
         User user = new User(name, 50000);
 
-        // TODO save in repository
         return userRepository.save(user);
     }
 
