@@ -76,7 +76,7 @@ public class GameRoom {
             player.hitCard();
         }
 
-        if(playerList.get(name).getHand().getCardSum() >21){
+        if(playerList.get(name).getHand().getCardSum() >= 21){
             playDealer();
         }
 
