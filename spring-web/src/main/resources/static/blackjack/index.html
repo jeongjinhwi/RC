@@ -59,17 +59,54 @@
             width: auto;
             max-width: 100%;
             margin: 0 auto;
-            background-color: #fff;
             min-height: 500px;
+            text-align: left;
+        }
+        #footer_banner {
+            width: 100%;
+            height: 145px;
+        }
+        #input_login_name {
+            background-color: black;
+            border-color: red;
+            color: antiquewhite;
             text-align: center;
+            margin-left: 43%;
+
+            margin-top: 140px;
         }
 
+        #login, #lobby {
+            width: 100%;
+            min-height: 650px;
+            height: auto;
+            background: url(./loginpage.jpg) no-repeat center;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+
+        }
+        #create_room_button {
+            margin-top: 50px;
+        }
+        #game {
+            background: url(./mainimage.jpg) no-repeat center;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            width: 100%;
+            height: 620px;
+
+        }
         .dealer-cards .card, .player-cards .card {
             margin-left: 5px;
+
         }
 
         .dealer-cards .card:first-child, .player-cards .card:first-child{
-            margin-left: 0;
+            margin-left: 40px;
         }
 
         .new-cards .card:first-child{
@@ -85,8 +122,43 @@
 
         .dealer-total, .player-total{
             margin-top: 10px;
+            text-align: center;
+        }
+        #name_area {
+            text-align: center;
+            margin-right: 15px;
+        }
+        #card_area {
+            float: left;
+            margin-left: 30px;
+            display: inline-block;
+            width: 30%;
+            min-height: 300px;
+
         }
 
+        #center_area {
+            float: left;
+
+            margin-top: 90px;
+            display: inline-block;
+            width: 30%;
+            height: auto;
+        }
+
+        #button_area {
+            float: left;
+
+
+            display: inline-block;
+            width: 100%;
+            height: auto;
+        }
+
+        #bet_area {
+            margin-left: 20px;
+            width: 55%;
+        }
         .buttons{
             width: 210px;
             margin: 20px auto 0 auto;
@@ -106,6 +178,8 @@
             -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
             -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
             display: inline-block;
+            margin-left: 25%;
+            margin-top: 10px;
             color: white;
             white-space: nowrap;
             text-decoration: none;
@@ -155,7 +229,7 @@
         }
 
         /*.dealer-total{*/
-            /*visibility: hidden;*/
+        /*visibility: hidden;*/
         /*}*/
 
 
@@ -384,8 +458,10 @@
         }
 
         .betting-area{
-            width: 70px;
-            margin: 30px auto 30px auto;
+            margin-left: 65px;
+            display: block;
+            width: 100%;
+            text-align: center;
         }
 
         .betting-area #more{
@@ -396,6 +472,7 @@
         .betting-area #less{
             float: left;
             width: 30px;
+            margin-left: 20px;
         }
 
         .money, .username{
@@ -406,35 +483,21 @@
         .margintest {
             margin-left: 20px;
         }
-        #left{
-            float:left;
-            width: 60%;
-        }
-        #right{
-            float: right;
-            width: 25%;
-            background-color: skyblue;
-            min-height: 500px;
-        }
+
         #rank{
             border: 1px solid black;
-            width: 60%;
-            height: 70%;
+            background-color: white;
+            width: 25%;
+            display: inline-block;
+            float: right;
+            height: auto;
+            margin-right: 40px;
+            margin-bottom: 10px;
+            margin-top: 50px;
         }
     </style>
 </head>
 <body>
-<header id="header" style="display:none">
-    <div>
-        <b> Name : </b>
-        <span id="username"></span>
-    </div>
-    <div>
-        <b>Available Funds</b><br>
-        <span id="money" class="money"></span>
-        <div class="clear"></div>
-    </div>
-</header>
 <div class="page" id="login">
     <div>
         <input type="text" id="input_login_name" />
@@ -448,15 +511,28 @@
     </div>
 </div>
 <div class="page" id="game" style="display: none">
-    <div id = "left">
+    <div id="name_area">
+        <b>이름 : </b>
+        <span id="username" class="username"></span>
+        <span class='margintest'><b>현재 금액 : </b></span>
+        <span id="money" class="money"></span>
+        <div class="clear"></div>
+    </div>
+    <div id="card_area">
         <div class="dealer-cards"></div>
         <div class="clear"></div>
         <div class="player-cards"></div>
-        <div class="buttons"><div class="btn" id="hit">Hit</div><div class="btn" id="stand">Stand</div><div class="btn" id="doubledown">DoubleDown</div></div>
-        <div class="buttons"><div class="btn" id="deal">Deal</div></div>
+    </div>
+    <div id="center_area">
+        <div id="button_area">
+            <div class="buttons"><div class="btn" id="hit">Hit</div><div class="btn" id="stand">Stand</div><div class="btn" id="doubledown">DoubleDown</div></div>
+            <div class="buttons"><div class="btn" id="deal">Deal</div></div>
+        </div>
         <div class="betting-area">
-            <b>Your Bet</b><br>
-            <div id="bet" class="bet money">0</div>
+            <div id="bet_area">
+                <b>Your Bet</b><br>
+                <div id="bet" class="bet money">0</div>
+            </div>
             <div>
                 <div class="btn" id="more">+</div>
                 <div class="btn" id="less">-</div>
@@ -464,10 +540,9 @@
             <div class="clear"></div>
         </div>
     </div>
-    <div id="right">
         <div id="rank"></div>
-    </div>
 </div>
+<img src="./casino_banner_bottom.jpg" alt="" id="footer_banner">
 </body>
 <script src="./jquery-3.3.1.min.js"></script>
 
