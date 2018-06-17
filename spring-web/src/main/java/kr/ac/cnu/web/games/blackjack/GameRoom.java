@@ -1,5 +1,6 @@
 package kr.ac.cnu.web.games.blackjack;
 
+import kr.ac.cnu.web.model.User;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -50,6 +51,10 @@ public class GameRoom {
         Player player = playerList.get(name);
 
         player.placeBet(bet);
+    }
+    public long update(String name){
+        Player player = playerList.get(name);
+        return player.getBalance();
     }
 
     public void deal() {
