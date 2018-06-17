@@ -54,7 +54,7 @@ public class GameRoom {
     }
     public long update(String name){
         Player player = playerList.get(name);
-        return player.getBalance();
+        return player.getBalance()+player.getCurrentBet();
     }
 
     public void deal() {
