@@ -2,6 +2,7 @@ package kr.ac.cnu.web.service;
 
 import kr.ac.cnu.web.games.blackjack.Deck;
 import kr.ac.cnu.web.games.blackjack.GameRoom;
+import kr.ac.cnu.web.games.blackjack.Player;
 import kr.ac.cnu.web.model.User;
 import org.springframework.stereotype.Service;
 
@@ -73,5 +74,10 @@ public class BlackjackService {
         gameRoom.doubledown(user.getName());
 
         return gameRoom;
+    }
+
+    public long getPlayerBalance(String roomId, User user) {
+        GameRoom gameRoom = gameRoomMap.get(roomId);
+        return gameRoom.update(user.getName());
     }
 }

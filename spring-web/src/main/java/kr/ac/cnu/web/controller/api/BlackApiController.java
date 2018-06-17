@@ -1,5 +1,7 @@
 package kr.ac.cnu.web.controller.api;
 
+import kr.ac.cnu.web.games.blackjack.Player;
+import lombok.Getter;
 import kr.ac.cnu.web.exceptions.NoLoginException;
 import kr.ac.cnu.web.exceptions.NoUserException;
 import kr.ac.cnu.web.games.blackjack.GameRoom;
@@ -13,6 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,36 +30,54 @@ public class BlackApiController {
     private BlackjackService blackjackService;
     @Autowired
     private UserRepository userRepository;
+    @Getter
+    private String username;
 
-    @RequestMapping(value = "/jpa", method = RequestMethod.GET)
-    public Page<User> jpa(@RequestParam int size) {
-        PageRequest pageRequest = PageRequest.of(0, size);
-
-        Page<User> page = userRepository.findAll(pageRequest);
-
-        return page;
+    @PostMapping(value = "/rank")
+    public List<User> rank() {
+        List<User> rankList = userRepository.findAll();
+        rankList.sort(new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                if(o1.getAccount() < o2.getAccount()){
+                    return 1;
+                }
+                else if( o1.getAccount() == o2.getAccount()){
+                    return 0;
+                }
+                else{
+                    return -1;
+                }
+            }
+        });
+        return rankList;
     }
 
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public User login(@RequestBody String name) {
+        username = name;
         return userRepository.findById(name).orElseThrow(() -> new NoUserException());
     }
 
     @PostMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public User singup(@RequestBody String name) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
-        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO user (name, account) VALUES (?, ?)");
-        pstmt.setString(1, name);
-        pstmt.setInt(2, 50000);
+    public User singup(@RequestBody String name) {
+        // TODO check already used name
         Optional<User> userOptional = userRepository.findById(name);
         if (userOptional.isPresent()) {
             throw new RuntimeException();
         }
 
-        pstmt.execute();
+        // TODO new user
         User user = new User(name, 50000);
 
+        // TODO save in repository
+        return userRepository.save(user);
+    }
+    @PostMapping(value = "/rooms/{roomId}/update")
+    public User update(@RequestHeader("name") String name, @PathVariable String roomId) {
+        User user = this.getUserFromSession(name);
+        long balance = blackjackService.getPlayerBalance(roomId, user);
+        user.setAccount(balance);
         return userRepository.save(user);
     }
 

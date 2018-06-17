@@ -57,7 +57,7 @@
 
         .page{
             width: auto;
-            max-width: 900px;
+            max-width: 100%;
             margin: 0 auto;
             background-color: #fff;
             min-height: 500px;
@@ -406,9 +406,35 @@
         .margintest {
             margin-left: 20px;
         }
+        #left{
+            float:left;
+            width: 60%;
+        }
+        #right{
+            float: right;
+            width: 25%;
+            background-color: skyblue;
+            min-height: 500px;
+        }
+        #rank{
+            border: 1px solid black;
+            width: 60%;
+            height: 70%;
+        }
     </style>
 </head>
 <body>
+<header id="header" style="display:none">
+    <div>
+        <b>Name : </b>
+        <span id="username"></span>
+    </div>
+    <div>
+        <b>Available Funds</b><br>
+        <span id="money" class="money"></span>
+        <div class="clear"></div>
+    </div>
+</header>
 <div class="page" id="login">
     <div>
         <input type="text" id="input_login_name" />
@@ -422,26 +448,24 @@
     </div>
 </div>
 <div class="page" id="game" style="display: none">
-    <div>
-        <b>이름 : </b>
-        <span id="username" class="username"></span>
-        <span class='margintest'><b>현재 금액 : </b></span>
-        <span id="money" class="money"></span>
+    <div id = "left">
+        <div class="dealer-cards"></div>
         <div class="clear"></div>
-    </div>
-    <div class="dealer-cards"></div>
-    <div class="clear"></div>
-    <div class="player-cards"></div>
-    <div class="buttons"><div class="btn" id="hit">Hit</div><div class="btn" id="stand">Stand</div><div class="btn" id="doubledown">DoubleDown</div></div>
-    <div class="buttons"><div class="btn" id="deal">Deal</div></div>
-    <div class="betting-area">
-        <b>Your Bet</b><br>
-        <div id="bet" class="bet money">0</div>
-        <div>
-            <div class="btn" id="more">+</div>
-            <div class="btn" id="less">-</div>
+        <div class="player-cards"></div>
+        <div class="buttons"><div class="btn" id="hit">Hit</div><div class="btn" id="stand">Stand</div><div class="btn" id="doubledown">DoubleDown</div></div>
+        <div class="buttons"><div class="btn" id="deal">Deal</div></div>
+        <div class="betting-area">
+            <b>Your Bet</b><br>
+            <div id="bet" class="bet money">0</div>
+            <div>
+                <div class="btn" id="more">+</div>
+                <div class="btn" id="less">-</div>
+            </div>
+            <div class="clear"></div>
         </div>
-        <div class="clear"></div>
+    </div>
+    <div id="right">
+        <div id="rank"></div>
     </div>
 </div>
 </body>
@@ -490,6 +514,7 @@
             $('#login').hide();
             $('#lobby').hide();
             $('#game').show();
+            $('#header').show();
             gameRoomId = data.roomId;
             drawGameRoom(data);
         });
@@ -582,7 +607,26 @@
             $('#hit').hide();
             $('#stand').hide();
             $('#doubledown').hide();
-        } else {
+
+            $.ajax({
+                 type: 'POST',
+                 url: 'http://localhost:8080/api/black-jack/rooms/' + gameRoomId + '/update',
+                 headers: {
+                     'name':user.name
+                 },
+            }).done(function() {
+                 $.ajax({
+                     type: 'POST',
+                     url: 'http://localhost:8080/api/black-jack/rank'
+                 }).done(function(data) {
+                     $('#rank').html("");
+                     for(var i = 0; i < data.length ; i++ ) {
+                         $('#rank').append('<div class="rankList">' + (i+1) + ". " + data[i].name + "       " + data[i].account + '</div>');
+                     }
+                  });
+
+            });
+    } else {
             $('#deal').hide();
             $('#more').hide();
             $('#less').hide();
@@ -609,6 +653,8 @@
         if (gameRoom.playerList[user.name].hand.cardList.length > 0) {
             $('.player-cards').append('<div id="playerTotal" class="player-total">' + gameRoom.playerList[user.name].hand.cardSum + '</div>')
         }
+
+        $('#username').html(user.name);
         $('#bet').html(gameRoom.playerList[user.name].currentBet);
         $('#money').html(gameRoom.playerList[user.name].balance);
     }
