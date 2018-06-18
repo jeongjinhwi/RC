@@ -97,4 +97,19 @@ public class GameRoom {
         Player player = playerList.get(name);
         player.doubledownCard();
     }
+
+    public void blackjackwin(String name) {
+        Player player = playerList.get(name);
+        if(playerList.get(name).getHand().getCardSum() == 21){
+            if(dealer.getHand().getCardSum() == 21){
+                player.tie();
+            }else {
+                player.blackjackwin();
+            }
+            this.isFinished = true;
+        }
+        else{
+            this.isFinished = false;
+        }
+    }
 }

@@ -30,15 +30,6 @@ public class Evaluator {
         playerMap.forEach((s, player) -> {
             int playerResult = player.getHand().getCardSum();
 
-            if(player.getHand().getCardList().size() == 2) { // 만약 플레이어가 2장의 카드만 가지고 있다면 (블랙잭 조건)
-                if (playerResult == 21) { // 또한, 플레이어가 블랙잭을 만족한다면
-                    if (dealerResult == 21)
-                        player.tie();
-                    else {
-                        player.blackjackwin(); // 1.5배의 배당금을 받는 함수 실행
-                    }
-                } else {
-                }
                 if (playerResult > 21) {
                     player.lost();
                 } else if (playerResult > dealerResult) {
@@ -48,7 +39,8 @@ public class Evaluator {
                 } else {
                     player.lost();
                 }
-            }
+
+
         });
 
         return true;

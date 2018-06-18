@@ -47,10 +47,9 @@ public class BlackjackService {
         gameRoom.reset();
         gameRoom.bet(user.getName(), bet);
         gameRoom.deal();
-
+        gameRoom.blackjackwin(user.getName());
         return gameRoom;
     }
-
     public GameRoom hit(String roomId, User user) {
         GameRoom gameRoom = gameRoomMap.get(roomId);
 

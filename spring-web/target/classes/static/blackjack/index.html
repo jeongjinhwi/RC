@@ -126,7 +126,7 @@
         }
         #name_area {
             text-align: center;
-            margin-left: 15px;
+            margin-right: 15px;
         }
         #card_area {
             float: left;
@@ -612,6 +612,7 @@
     })
 
     $('#hit').click(function() {
+        $('#doubledown').hide();
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/api/black-jack/rooms/' + gameRoomId + '/hit',
@@ -636,6 +637,7 @@
     })
 
     $('#doubledown').click(function() {
+
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/api/black-jack/rooms/' + gameRoomId + '/doubledown',
@@ -644,6 +646,7 @@
             },
         }).done(function(data) {
             drawGameRoom(data);
+            $('#doubledown').hide();
         });
     })
 

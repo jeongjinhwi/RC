@@ -30,6 +30,7 @@ public class Hand {
 
     public int getCardSum(){
         int sum = 0;
+        int AceCount = 0;
         for (int i = 0 ; i < cardList.size() ; i ++) {
             if (cardList.get(i).getRank() < 11) {
                 if(cardList.get(i).getRank()==1){
@@ -42,11 +43,19 @@ public class Hand {
             else {
                 sum = sum + 10;
             }
+//            for (int j = 0 ; j < cardList.size() ; j ++) {
+//                if(cardList.get(j).getRank()==1 && sum > 21){
+//                    sum -= 10;
+//                }
+//            }
+        }
+        if(sum > 21 ){
             for (int j = 0 ; j < cardList.size() ; j ++) {
-                if(cardList.get(j).getRank()==1 && sum > 21){
-                    sum -= 10;
+                if(cardList.get(j).getRank()==1){
+                    AceCount++;
                 }
             }
+            sum -= 10*AceCount;
         }
 
         return sum;
